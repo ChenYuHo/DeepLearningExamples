@@ -177,11 +177,11 @@ def main():
     else:
         os.environ['WANDB_MODE'] = 'dryrun'
     wandb_id = os.environ.get('WANDB_ID', None)
-    run = None
+    wandb_run = None
     if wandb_id is None:
-        run = wandb.init(config=args)
+        wandb_run = wandb.init(config=args)
     else:
-        run = wandb.init(config=args, id=f"{wandb_id}{hvd.rank()}")
+        wandb_run = wandb.init(config=args, id=f"{wandb_id}{hvd.rank()}")
     wandb.config.update({'SLURM_JOB_ID': os.environ.get('SLURM_JOB_ID', None)})
     wandb.tensorboard.patch(save=False)
 
@@ -284,7 +284,7 @@ def main():
             'loss_scale': args.loss_scale
         },
         mode='TRAIN' if args.mode == 'train' else 'EVAL',
-        run=run,
+        wandb_run=wandb_run,
     )
     saver = tf.train.Saver()
 
