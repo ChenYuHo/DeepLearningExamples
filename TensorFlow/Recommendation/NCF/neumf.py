@@ -148,7 +148,7 @@ def ncf_model_ops(users,
                   labels,
                   dup_mask,
                   params,
-                  mode='TRAIN'):
+                  mode='TRAIN', run=run):
     """
     Constructs the training and evaluation graphs
     """
@@ -233,7 +233,7 @@ def ncf_model_ops(users,
             optimizer = tf.contrib.mixed_precision.LossScaleOptimizer(optimizer, loss_scale_manager)
 
         # Horovod wrapper for distributed training
-        optimizer = hvd.DistributedOptimizer(optimizer)
+        optimizer = hvd.DistributedOptimizer(optimizer, run=run)
 
         # Update ops
         global_step = tf.train.get_global_step()
