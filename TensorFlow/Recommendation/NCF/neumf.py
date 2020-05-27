@@ -148,7 +148,7 @@ def ncf_model_ops(users,
                   labels,
                   dup_mask,
                   params,
-                  mode='TRAIN', run=run):
+                  mode='TRAIN', run=None):
     """
     Constructs the training and evaluation graphs
     """
